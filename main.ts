@@ -10,5 +10,11 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const COMMENT =
   "LGTM. Merging this, and with it, another small piece of the person I meant to become.";
 
+// The gate is strict: one line, 1–140 characters, not only whitespace.
+// Check locally so a typo can never ship an invalid entry.
+if (!COMMENT || COMMENT.length > 140 || COMMENT.includes("\n") || !COMMENT.trim()) {
+  throw new Error("entry comment violates the 1-line / 140-character gate");
+}
+
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", COMMENT, "utf8");
